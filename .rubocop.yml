@@ -1,0 +1,74 @@
+---
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - config/initializers/devise.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - ./*.rb
+  Max: 50
+
+# 10 is just too short
+Metrics/MethodLength:
+  Max: 25
+
+Naming/FileName:
+  Exclude:
+    - lib/ext-*
+
+Style/Documentation:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/NumberedParametersLimit:
+  Enabled: false
+
+# Same style as for Chef:
+# See: https://github.com/chef/cookstyle/blob/master/config/cookstyle.yml
+Style/PercentLiteralDelimiters:
+  Enabled: true
+  PreferredDelimiters:
+    '%': ()
+    '%i': ()
+    '%I': ()
+    '%q': ()
+    '%Q': ()
+    '%r': '{}'
+    '%s': ()
+    '%w': ()
+    '%W': ()
+    '%x': ()
+
+Style/RedundantLineContinuation:
+  Enabled: false
+
+# This cop is broken for Hashes but can't really detect them as it is a static
+# analysis. So we'll disable it as grep on Hashes works vastly different than
+# on Arrays.
+Style/SelectByRegexp:
+  Enabled: false
+
+# Same style as for Chef:
+# See: https://github.com/chef/cookstyle/blob/master/config/cookstyle.yml
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+# Same style as for Chef:
+# See: https://github.com/chef/cookstyle/blob/master/config/cookstyle.yml
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+# Same style as for Chef:
+# See: https://github.com/chef/cookstyle/blob/master/config/cookstyle.yml
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/WhileUntilModifier:
+  Enabled: false
