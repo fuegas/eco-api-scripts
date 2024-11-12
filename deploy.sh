@@ -2,8 +2,8 @@
 
   # --dry-run \
 rsync -a \
-  --dry-run \
   --verbose \
+  --exclude='deploy.sh' \
   --exclude='tmp/creds.txt' \
   --exclude='tmp/*.json' \
   ./* \
