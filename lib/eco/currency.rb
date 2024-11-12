@@ -22,6 +22,8 @@ module Eco
 
         shops.each do |shop|
           shop.orders.each do |order|
+            next if order.default_price?
+
             if order.selling?
               selling_count += 1
               selling_value += order.quantity * order.price

@@ -4,6 +4,8 @@ require 'data/order_data'
 
 module Eco
   class Order
+    DEFAULT_PRICE = 999_999
+
     attr_reader :item,
                 :price,
                 :quantity,
@@ -15,6 +17,10 @@ module Eco
 
     def selling?
       @selling
+    end
+
+    def default_price?
+      @default_price ||= price == DEFAULT_PRICE
     end
 
     def data

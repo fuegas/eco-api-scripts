@@ -10,6 +10,6 @@ Eco::Currency
   .each { puts _1.to_influx(tag: 'currency') }
 
 Eco::Order
-  .reject { _1.currency.credit? }
+  .reject { _1.currency.credit? || _1.default_price? }
   .map(&:data)
   .each { puts _1.to_influx(tag: 'order') }
