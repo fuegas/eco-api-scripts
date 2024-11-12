@@ -31,6 +31,14 @@ if $terminal; then
 fi
 
 # Download orders
+$terminal && echo 'Downloading sell orders'
+curl \
+  --fail \
+  --output ${tmp_path}/orders-sell.tmp \
+  ${url_sell_orders} \
+  && mv ${tmp_path}/orders-sell.tmp ${tmp_path}/orders-sell.json \
+  && (cat ${tmp_path}/orders-sell.json | jq . > ${tmp_path}/orders-sell-pretty.json)
+
 $terminal && echo 'Downloading buy orders'
 curl \
   --fail \
@@ -39,11 +47,3 @@ curl \
   ${url_buy_orders} \
   && mv ${tmp_path}/orders-buy.tmp ${tmp_path}/orders-buy.json \
   && (cat ${tmp_path}/orders-buy.json | jq . > ${tmp_path}/orders-buy-pretty.json)
-
-$terminal && echo 'Downloading sell orders'
-curl \
-  --fail \
-  --output ${tmp_path}/orders-sell.tmp \
-  ${url_sell_orders} \
-  && mv ${tmp_path}/orders-sell.tmp ${tmp_path}/orders-sell.json \
-  && (cat ${tmp_path}/orders-sell.json | jq . > ${tmp_path}/orders-sell-pretty.json)
