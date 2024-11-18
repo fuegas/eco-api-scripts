@@ -28,4 +28,35 @@ module Eco
       shop.add_order(order)
     end
   end
+
+  def self.parse_stores_json(path)
+    json = ::JSON.parse(::File.read(path))
+    return unless json.key? 'Stores'
+
+    json['Stores'].each do |data|
+      # Skip barter shops
+      next if data['CurrencyName'] == 'Barter'
+      # Skip unknown owners
+      next if data['Owner'].nil?
+
+      owner = Owner.find(data['Owner'])
+      currency = Currency.find(data['CurrencyName'])
+      shop = Shop.find(data['Name'], currency, owner)
+
+      data['AllOffers'].each do |offer|
+          order = Order.register(
+          item: offer['ItemName'],
+          price: offer['Price'],
+          quantity: offer['Quantity'],
+          selling: !offer['Buying'],
+          # Metadata
+          currency: currency,
+          owner: owner,
+          shop: shop,
+        )
+
+        shop.add_order(order)
+      end
+    end
+  end
 end

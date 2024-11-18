@@ -2,7 +2,7 @@
 
 class Data
   module Influx
-    def convert_influx_value(value)
+    def convert_influx_value(value, name:)
       case value
       when Float then value
       when Integer then "#{value}i"
@@ -11,13 +11,13 @@ class Data
         # re := regexp.MustCompile(`([\s=,])`)
         # return re.ReplaceAllString(val, "\\$1")
       else
-        raise "No idea how to process #{value.class.name}: #{value}"
+        raise "No idea how to process #{name} with #{value.class.name}: #{value}"
       end
     end
 
     def convert_influx_fields(*names)
       self.to_h.slice(*names)
-        .map { "#{_1}=#{convert_influx_value(_2)}" }
+        .map { "#{_1}=#{convert_influx_value(_2, name: _1)}" }
         .join(',')
     end
 

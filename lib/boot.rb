@@ -28,5 +28,7 @@ class Numeric
   end
 end
 
-Eco.parse_json("#{__dir__}/../tmp/orders-buy.json", selling: false)
-Eco.parse_json("#{__dir__}/../tmp/orders-sell.json", selling: true)
+# Eco.parse_json("#{__dir__}/../tmp/orders-buy.json", selling: false)
+# Eco.parse_json("#{__dir__}/../tmp/orders-sell.json", selling: true)
+
+Eco.parse_stores_json("#{__dir__}/../tmp/stores.json")
