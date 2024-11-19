@@ -41,7 +41,12 @@ module Eco
 
       owner = Owner.find(data['Owner'])
       currency = Currency.find(data['CurrencyName'])
-      shop = Shop.find(data['Name'], currency, owner)
+      shop = Shop.find(
+        data['Name'],
+        currency,
+        owner,
+        full_access: data['FullAccessUsers'],
+      )
 
       data['AllOffers'].each do |offer|
           order = Order.register(

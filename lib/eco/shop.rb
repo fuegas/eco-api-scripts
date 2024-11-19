@@ -5,19 +5,24 @@ module Eco
     attr_reader :name,
                 :currency,
                 :owner,
+                :full_access,
                 :orders
 
     def add_order(order)
       orders << order
     end
 
+    def multiple_tenants?
+      full_access&.any?
+    end
+
     class << self
-      def find(name, currency, owner)
+      def find(name, currency, owner, full_access: [])
         cleaned = clean name
         currency = Currency.find(currency)
         owner = Owner.find(owner)
 
-        shops["#{currency}|#{cleaned}"] ||= new(cleaned, currency, owner)
+        shops["#{currency}|#{cleaned}"] ||= new(cleaned, currency, owner, full_access)
       end
 
       # Delegated methods
@@ -41,11 +46,12 @@ module Eco
 
     private
 
-    def initialize(name, currency, owner)
+    def initialize(name, currency, owner, full_access)
       @name = name
       @currency = currency
       @owner = owner
       @orders = []
+      @full_access = full_access
 
       currency.add_shop self
     end
