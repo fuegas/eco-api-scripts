@@ -29,6 +29,7 @@ if $terminal; then
   echo "Using base URL: ${url_base}"
   echo "Buy orders:  ${url_buy_orders}"
   echo "Sell orders: ${url_sell_orders}"
+  echo "Stores: ${url_stores}"
 fi
 
 # Download orders
