@@ -60,10 +60,10 @@ curl \
 #   && mv ${tmp_path}/orders-buy.tmp ${tmp_path}/orders-buy.json \
 #   && (cat ${tmp_path}/orders-buy.json | jq . > ${tmp_path}/orders-buy-pretty.json)
 
-$terminal && echo 'Downloading laws'
-curl \
-  --fail \
-  --output ${tmp_path}/laws.tmp \
-  ${url_laws} \
-  && mv ${tmp_path}/laws.tmp ${tmp_path}/laws.json \
-  && (cat ${tmp_path}/laws.json | jq . > ${tmp_path}/laws-pretty.json)
+# $terminal && echo 'Downloading laws'
+# curl \
+#   --fail \
+#   --output ${tmp_path}/laws.tmp \
+#   ${url_laws} \
+#   && mv ${tmp_path}/laws.tmp ${tmp_path}/laws.json \
+#   && (cat ${tmp_path}/laws.json | jq . > ${tmp_path}/laws-pretty.json)
