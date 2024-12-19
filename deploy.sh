@@ -1,6 +1,6 @@
 #!/bin/bash
 
-  # --dry-run \
+  # --dry-run --itemize-changes \
 rsync -a \
   --verbose \
   --exclude='archive/*' \
