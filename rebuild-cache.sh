@@ -24,6 +24,8 @@ url_buy_orders="${url_base}/api/mods/v1/prices?includeOutOfStock=false"
 url_sell_orders="${url_base}/api/mods/v1/prices?includeOutOfStock=true"
 url_stores="${url_base}/api/v1/plugins/EcoPriceCalculator/stores"
 url_laws="${url_base}/api/v1/laws/byStates/Active"
+url_recipes="${url_base}/api/mods/v1/recipes"
+url_tags="${url_base}/api/v1/plugins/EcoPriceCalculator/tags"
 
 # Inform which URL we're querying
 if $terminal; then
@@ -67,3 +69,21 @@ curl \
 #   ${url_laws} \
 #   && mv ${tmp_path}/laws.tmp ${tmp_path}/laws.json \
 #   && (cat ${tmp_path}/laws.json | jq . > ${tmp_path}/laws-pretty.json)
+
+# Items
+
+$terminal && echo 'Downloading recipes'
+curl \
+  --fail \
+  --output ${tmp_path}/recipes.tmp \
+  ${url_recipes} \
+  && mv ${tmp_path}/recipes.tmp ${tmp_path}/recipes.json \
+  && (cat ${tmp_path}/recipes.json | jq . > ${tmp_path}/recipes-pretty.json)
+
+$terminal && echo 'Downloading tags'
+curl \
+  --fail \
+  --output ${tmp_path}/tags.tmp \
+  ${url_tags} \
+  && mv ${tmp_path}/tags.tmp ${tmp_path}/tags.json \
+  && (cat ${tmp_path}/tags.json | jq . > ${tmp_path}/tags-pretty.json)

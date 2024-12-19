@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h2>Tags</h2>
+      <ul>
+        <% context[:tags].each do |ref, name| %>
+        <li>
+          <a href="<%= ref %>.html">
+            <%= name %>
+          </a>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col">
+      <h2>Items</h2>
+      <ul>
+        <% context[:items].each do |ref, name| %>
+        <li>
+          <a href="<%= ref %>.html">
+            <%= name %>
+          </a>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col">
+      <h2>Recipes</h2>
+      <ul>
+        <% context[:skill_recipes].each do |skill, recipes| %>
+        <li>
+          <%= skill %>
+          <ul>
+            <% recipes.each do |ref, name| %>
+            <li>
+              <a href="<%= ref %>.html">
+                <%= name %>
+              </a>
+            </li>
+            <% end %>
+          </ul>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

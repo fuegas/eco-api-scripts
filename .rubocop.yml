@@ -1,12 +1,15 @@
 ---
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.3
   NewCops: enable
 
 Layout/LineLength:
   Max: 120
   Exclude:
     - config/initializers/devise.rb
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
 
 Metrics/BlockLength:
   Exclude:

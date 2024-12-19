@@ -1,4 +1,6 @@
 .irb_history
+/recipes/*
+!/recipes/.keep
 /tmp/*
 !/tmp/.keep
 telegraf.conf

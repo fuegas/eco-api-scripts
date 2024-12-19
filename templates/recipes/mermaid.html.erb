@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="row">
+    <h3><a href="index.html">Back</a></h3>
+    <pre class="mermaid"><%= context[:mermaid] %></pre>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        maxEdges: 4000,
+        startOnLoad: true,
+      });
+    </script>
+  </div>
+</div>
