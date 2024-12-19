@@ -1,7 +1,7 @@
 #!/home/ferdi/.rbenv/versions/3.3.0/bin/ruby
 # frozen_string_literal: true
 
-require_relative './lib/boot'
+require_relative 'lib/boot'
 
 # Currency reports
 Eco::Currency
