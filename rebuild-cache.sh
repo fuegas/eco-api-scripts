@@ -20,8 +20,6 @@ fi
 
 # Build URLs
 url_base="http://${server_ip}:${server_port}"
-url_buy_orders="${url_base}/api/mods/v1/prices?includeOutOfStock=false"
-url_sell_orders="${url_base}/api/mods/v1/prices?includeOutOfStock=true"
 url_stores="${url_base}/api/v1/plugins/EcoPriceCalculator/stores"
 url_recipes="${url_base}/api/mods/v1/recipes"
 url_tags="${url_base}/api/v1/plugins/EcoPriceCalculator/tags"
@@ -29,8 +27,6 @@ url_tags="${url_base}/api/v1/plugins/EcoPriceCalculator/tags"
 # Inform which URL we're querying
 if $terminal; then
   echo "Using base URL: ${url_base}"
-  echo "Buy orders:  ${url_buy_orders}"
-  echo "Sell orders: ${url_sell_orders}"
   echo "Stores: ${url_stores}"
 fi
 
@@ -42,23 +38,6 @@ curl \
   ${url_stores} \
   && mv ${tmp_path}/stores.tmp ${tmp_path}/stores.json \
   && (cat ${tmp_path}/stores.json | jq . > ${tmp_path}/stores-pretty.json)
-
-# $terminal && echo 'Downloading sell orders'
-# curl \
-#   --fail \
-#   --output ${tmp_path}/orders-sell.tmp \
-#   ${url_sell_orders} \
-#   && mv ${tmp_path}/orders-sell.tmp ${tmp_path}/orders-sell.json \
-#   && (cat ${tmp_path}/orders-sell.json | jq . > ${tmp_path}/orders-sell-pretty.json)
-
-# $terminal && echo 'Downloading buy orders'
-# curl \
-#   --fail \
-#   ${curl_opts} \
-#   --output ${tmp_path}/orders-buy.tmp \
-#   ${url_buy_orders} \
-#   && mv ${tmp_path}/orders-buy.tmp ${tmp_path}/orders-buy.json \
-#   && (cat ${tmp_path}/orders-buy.json | jq . > ${tmp_path}/orders-buy-pretty.json)
 
 # Items
 
