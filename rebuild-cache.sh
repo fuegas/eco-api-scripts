@@ -23,7 +23,6 @@ url_base="http://${server_ip}:${server_port}"
 url_buy_orders="${url_base}/api/mods/v1/prices?includeOutOfStock=false"
 url_sell_orders="${url_base}/api/mods/v1/prices?includeOutOfStock=true"
 url_stores="${url_base}/api/v1/plugins/EcoPriceCalculator/stores"
-url_laws="${url_base}/api/v1/laws/byStates/Active"
 url_recipes="${url_base}/api/mods/v1/recipes"
 url_tags="${url_base}/api/v1/plugins/EcoPriceCalculator/tags"
 
@@ -33,7 +32,6 @@ if $terminal; then
   echo "Buy orders:  ${url_buy_orders}"
   echo "Sell orders: ${url_sell_orders}"
   echo "Stores: ${url_stores}"
-  echo "Laws: ${url_laws}"
 fi
 
 # Download orders
@@ -61,14 +59,6 @@ curl \
 #   ${url_buy_orders} \
 #   && mv ${tmp_path}/orders-buy.tmp ${tmp_path}/orders-buy.json \
 #   && (cat ${tmp_path}/orders-buy.json | jq . > ${tmp_path}/orders-buy-pretty.json)
-
-# $terminal && echo 'Downloading laws'
-# curl \
-#   --fail \
-#   --output ${tmp_path}/laws.tmp \
-#   ${url_laws} \
-#   && mv ${tmp_path}/laws.tmp ${tmp_path}/laws.json \
-#   && (cat ${tmp_path}/laws.json | jq . > ${tmp_path}/laws-pretty.json)
 
 # Items
 
