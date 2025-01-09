@@ -5,6 +5,30 @@ set -o errexit
 script_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "${script_path}/lib/common.sh"
 
+# Only rebuild cache when server has been up > 5 minutes
+#
+# When the server just restarted, we receive incorrect data from the API.
+# So we need to wait a few minutes for the server to settle down.
+status_path="${tmp_path}/${server}.status"
+
+up_since="0"
+if [ -f "${status_path}" ]; then
+  up_since=$(cat "${status_path}")
+fi
+
+if [[ "${up_since}" -eq 0 ]]; then
+  info "${status_path} does not exist or reports server is down. Not rebuilding cache."
+  exit 0
+fi
+
+timestamp=$(date +%s)
+if [ $(( timestamp - up_since )) -le 300 ]; then
+  info 'Server uptime < 5 minutes. Not rebuilding cache.'
+  exit 0
+else
+  info 'Server uptime > 5 minutes. Rebuilding cache.'
+fi
+
 # Build URLs
 url_base="http://${server}"
 url_stores="${url_base}/api/v1/plugins/EcoPriceCalculator/stores"
