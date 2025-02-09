@@ -31,15 +31,27 @@ fi
 
 # Build URLs
 url_base="http://${server}"
+url_info="${url_base}/info"
 url_stores="${url_base}/api/v1/plugins/EcoPriceCalculator/stores"
 url_recipes="${url_base}/api/mods/v1/recipes"
 url_tags="${url_base}/api/v1/plugins/EcoPriceCalculator/tags"
 
 # Inform which URL we're querying
 info "Using base URL: ${url_base}"
+info "Info: ${url_info}"
 info "Stores: ${url_stores}"
 info "Recipes: ${url_recipes}"
 info "Tags: ${url_tags}"
+
+# Server info
+info 'Downloading info'
+curl \
+  ${curl_opts} \
+  --fail \
+  --output ${tmp_path}/info.tmp \
+  ${url_info} \
+  && mv ${tmp_path}/info.tmp ${tmp_path}/info.json \
+  && (cat ${tmp_path}/info.json | jq . > ${tmp_path}/info-pretty.json)
 
 # Download orders
 info 'Downloading stores'

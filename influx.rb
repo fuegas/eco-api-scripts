@@ -13,3 +13,6 @@ Eco::Order
   .reject { _1.currency.credit? || _1.default_price? }
   .map(&:data)
   .each { puts _1.to_influx(tag: 'order') }
+
+# Server stats
+puts Data::ServerStats.info.to_influx(tag: 'serverstats')

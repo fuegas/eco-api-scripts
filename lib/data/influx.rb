@@ -24,7 +24,7 @@ class Data
     def to_influx(tag:)
       [
         tag,
-        ',',
+        (influx_tags.any? ? ',' : ''),
         convert_influx_fields(*influx_tags),
         ' ',
         convert_influx_fields(*influx_values),

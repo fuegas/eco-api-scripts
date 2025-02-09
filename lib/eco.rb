@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'data/server_stats'
 require 'eco/currency'
 require 'eco/order'
 require 'eco/owner'
@@ -41,5 +42,20 @@ module Eco
         shop.add_order(order)
       end
     end
+  end
+
+  def self.parse_server_stats_json(path)
+    json = ::JSON.parse(::File.read(path))
+    return unless json.key? 'Description'
+
+    Data::ServerStats.info(
+      online_players: json['OnlinePlayers'],
+      total_players: json['TotalPlayers'],
+      days_running: json['DaysRunning'],
+      animals: json['Animals'],
+      culture: json['TotalCulture'],
+      laws: json['Laws'],
+      plants: json['Plants'],
+    )
   end
 end
