@@ -12,6 +12,7 @@ class Data
     :currency,
     :owner,
     :shop,
+    :shop_balance,
   )
     include Influx
 
@@ -29,6 +30,7 @@ class Data
       %i(
         price
         quantity
+        shop_balance
       )
     end
   end

@@ -33,6 +33,7 @@ module Eco
         currency: currency.name,
         owner: owner.name,
         shop: shop.name,
+        shop_balance: shop.balance,
       )
     end
 

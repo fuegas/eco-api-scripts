@@ -22,11 +22,12 @@ module Eco
         data['Name'],
         currency,
         owner,
+        balance: data['Balance'],
         full_access: data['FullAccessUsers'],
       )
 
       data['AllOffers'].each do |offer|
-          order = Order.register(
+        order = Order.register(
           item: offer['ItemName'],
           price: offer['Price'],
           quantity: offer['Quantity'],
