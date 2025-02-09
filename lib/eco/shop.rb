@@ -18,7 +18,7 @@ module Eco
 
     class << self
       def find(name, currency, owner, full_access: [])
-        cleaned = clean name
+        cleaned = clean name, owner: owner
         currency = Currency.find(currency)
         owner = Owner.find(owner)
 
@@ -34,9 +34,15 @@ module Eco
 
       private
 
-      def clean(str)
-        str.gsub(/<[^>]+>/, '')
-          .gsub(/[^[:alnum:] ]/, '')
+      def clean(str, owner:)
+        cleaned = str.gsub(/<[^>]+>/, '') \
+                     .gsub(/[^[:alnum:] ]/, '')
+
+        if cleaned.empty?
+          "invalid_store_name_#{owner.name}"
+        else
+          cleaned
+        end
       end
 
       def shops
