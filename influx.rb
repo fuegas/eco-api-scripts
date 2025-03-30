@@ -1,4 +1,4 @@
-#!/home/ferdi/.rbenv/versions/3.3.0/bin/ruby
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 
 require_relative 'lib/boot'
