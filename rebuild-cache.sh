@@ -43,7 +43,8 @@ info "Stores: ${url_stores}"
 info "Recipes: ${url_recipes}"
 info "Tags: ${url_tags}"
 
-# Server info
+# Download JSONs
+
 info 'Downloading info'
 curl \
   ${curl_opts} \
@@ -53,7 +54,6 @@ curl \
   && mv ${tmp_path}/info.tmp ${tmp_path}/info.json \
   && (cat ${tmp_path}/info.json | jq . > ${tmp_path}/info-pretty.json)
 
-# Download orders
 info 'Downloading stores'
 curl \
   ${curl_opts} \
@@ -63,15 +63,16 @@ curl \
   && mv ${tmp_path}/stores.tmp ${tmp_path}/stores.json \
   && (cat ${tmp_path}/stores.json | jq . > ${tmp_path}/stores-pretty.json)
 
-# Recipes / tags
-info 'Downloading recipes'
-curl \
-  ${curl_opts} \
-  --fail \
-  --output ${tmp_path}/recipes.tmp \
-  ${url_recipes} \
-  && mv ${tmp_path}/recipes.tmp ${tmp_path}/recipes.json \
-  && (cat ${tmp_path}/recipes.json | jq . > ${tmp_path}/recipes-pretty.json)
+if [[ "$@" =~ --recipes ]]; then
+  info 'Downloading recipes'
+  curl \
+    ${curl_opts} \
+    --fail \
+    --output ${tmp_path}/recipes.tmp \
+    ${url_recipes} \
+    && mv ${tmp_path}/recipes.tmp ${tmp_path}/recipes.json \
+    && (cat ${tmp_path}/recipes.json | jq . > ${tmp_path}/recipes-pretty.json)
+fi
 
 info 'Downloading tags'
 curl \
