@@ -9,38 +9,38 @@ source "${script_path}/lib/common.sh"
 #
 # When the server just restarted, we receive incorrect data from the API.
 # So we need to wait a few minutes for the server to settle down.
-status_path="${tmp_path}/${server}.status"
+# status_path="${tmp_path}/${server}.status"
 
-up_since="0"
-if [ -f "${status_path}" ]; then
-  up_since=$(cat "${status_path}")
-fi
+# up_since="0"
+# if [ -f "${status_path}" ]; then
+#   up_since=$(cat "${status_path}")
+# fi
 
-if [[ "${up_since}" -eq 0 ]]; then
-  info "${status_path} does not exist or reports server is down. Not rebuilding cache."
-  exit 0
-fi
+# if [[ "${up_since}" -eq 0 ]]; then
+#   info "${status_path} does not exist or reports server is down. Not rebuilding cache."
+#   exit 0
+# fi
 
-timestamp=$(date +%s)
-if [ $(( timestamp - up_since )) -le 300 ]; then
-  info 'Server uptime < 5 minutes. Not rebuilding cache.'
-  exit 0
-else
-  info 'Server uptime > 5 minutes. Rebuilding cache.'
-fi
+# timestamp=$(date +%s)
+# if [ $(( timestamp - up_since )) -le 300 ]; then
+#   info 'Server uptime < 5 minutes. Not rebuilding cache.'
+#   exit 0
+# else
+#   info 'Server uptime > 5 minutes. Rebuilding cache.'
+# fi
 
 # Build URLs
 url_base="http://${server}"
 url_info="${url_base}/info"
+url_recipes="${url_base}/api/v1/plugins/EcoPriceCalculator/recipes"
 url_stores="${url_base}/api/v1/plugins/EcoPriceCalculator/stores"
-url_recipes="${url_base}/api/mods/v1/recipes"
 url_tags="${url_base}/api/v1/plugins/EcoPriceCalculator/tags"
 
 # Inform which URL we're querying
 info "Using base URL: ${url_base}"
 info "Info: ${url_info}"
-info "Stores: ${url_stores}"
 info "Recipes: ${url_recipes}"
+info "Stores: ${url_stores}"
 info "Tags: ${url_tags}"
 
 # Download JSONs
@@ -63,16 +63,14 @@ curl \
   && mv ${tmp_path}/stores.tmp ${tmp_path}/stores.json \
   && (cat ${tmp_path}/stores.json | jq . > ${tmp_path}/stores-pretty.json)
 
-if [[ "$@" =~ --recipes ]]; then
-  info 'Downloading recipes'
-  curl \
-    ${curl_opts} \
-    --fail \
-    --output ${tmp_path}/recipes.tmp \
-    ${url_recipes} \
-    && mv ${tmp_path}/recipes.tmp ${tmp_path}/recipes.json \
-    && (cat ${tmp_path}/recipes.json | jq . > ${tmp_path}/recipes-pretty.json)
-fi
+info 'Downloading recipes'
+curl \
+  ${curl_opts} \
+  --fail \
+  --output ${tmp_path}/recipes.tmp \
+  ${url_recipes} \
+  && mv ${tmp_path}/recipes.tmp ${tmp_path}/recipes.json \
+  && (cat ${tmp_path}/recipes.json | jq . > ${tmp_path}/recipes-pretty.json)
 
 info 'Downloading tags'
 curl \

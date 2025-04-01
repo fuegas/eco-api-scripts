@@ -28,7 +28,7 @@ if [[ "$@" =~ --debug ]]; then
 fi
 
 # Base curl options on terminal state
-curl_opts=''
+curl_opts='--location'
 if ! $terminal; then
   curl_opts="${curl_opts} --silent"
 fi

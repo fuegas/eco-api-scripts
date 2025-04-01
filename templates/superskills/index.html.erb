@@ -1,0 +1,139 @@
+<style>
+  .tooltip {
+    --bs-tooltip-max-width: 800px;
+  }
+
+  .tooltip-inner {
+    text-align: left;
+  }
+
+  .superskills {
+    --header-height: 90px;
+    --header-width: 20px;
+    --size: 175px;
+
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  .superskills th,
+  .superskills td {
+    vertical-align: baseline;
+    user-select: none;
+    line-height: normal;
+
+<%#     border: 1px solid #F0F; %>
+  }
+
+  .superskills tr.skill:hover td {
+    background-color: var(--bs-secondary);
+    outline: 1px solid var(--bs-secondary);
+  }
+
+  <% columns = 1 + context[:categories].to_a.flatten.length %>
+  <% (2..columns).each do |nr| %>
+  .superskills:has(tr > *:nth-child(<%= nr %>):hover)
+    tr > td:not(.category):nth-child(<%= nr %>),
+  .superskills:has(tr > *:nth-child(<%= nr %>):hover)
+    tr > th:not(.category):nth-child(<%= nr %>) div span {
+    background-color: var(--bs-secondary);
+    outline: 1px solid var(--bs-secondary);
+  }
+  <% end %>
+
+  .superskills td.ok,
+  .superskills td.nok {
+    text-align: center;
+  }
+
+  .superskills td.ok {
+    background-color: var(--bs-success);
+  }
+
+  .superskills td.nok {
+    background-color: var(--bs-danger);
+  }
+
+  .superskills tr th {
+    height: var(--header-height);
+    width: var(--header-width);
+    max-width: var(--header-width);
+  }
+
+  .superskills th>div {
+    width: var(--size);
+    transform:
+      translate(
+        calc(var(--size) / -1.41421 - 0.5em),
+        10px
+      )
+      rotate(45deg);
+    justify-content: flex-end;
+    display: flex;
+  }
+
+  .superskills .category {
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .superskills .skill {
+    font-weight: inherit;
+  }
+
+  .superskills td.skill {
+    padding-left: 1rem;
+    white-space: nowrap;
+  }
+</style>
+<div class="container">
+  <div class="row">
+    <h1>FactorEco Superskills</h1>
+    <table class="superskills">
+      <tr class="header">
+        <th></th>
+        <% context[:categories].each do |category, skills| %>
+        <th class="category"><div><%= category %></div></th>
+        <%   skills.each do |skill| %>
+        <th class="skill"><div><span><%= skill %></span></div></th>
+        <%   end %>
+        <% end %>
+      </tr>
+      <% context[:categories].each do |p_category, producers| %>
+      <tr>
+        <td class="category"><%= p_category %></td>
+      </tr>
+      <%   producers.each do |producer| %>
+      <%     p_superskill = context[:superskills][producer] %>
+      <tr class="skill">
+        <td class="skill"><%= producer %></td>
+        <% context[:categories].each do |_, consumers| %>
+        <td class="category"></td>
+        <%   consumers.each do |consumer| %>
+        <%     if producer == consumer %>
+        <td></td>
+        <%     else %>
+        <%       if (overlap = p_superskill[consumer] || []).any? %>
+        <td class="nok"
+            data-bs-toggle="tooltip"
+            data-bs-html="true"
+            data-bs-title="❌ <strong><%= producer %></strong> and <strong><%= consumer %></strong> are superskills!<br><%= overlap.join("<br>") %>">
+          ✗
+        </td>
+        <%       else %>
+        <td class="ok"
+            data-bs-toggle="tooltip"
+            data-bs-html="true"
+            data-bs-title="✅ <strong><%= producer %></strong> and <strong><%= consumer %></strong> are allowed!">
+          ✓
+        </td>
+        <%       end %>
+        <%     end %>
+        <%   end %>
+        <% end %>
+      </tr>
+      <%   end %>
+      <% end %>
+    </table>
+  </div>
+</div>

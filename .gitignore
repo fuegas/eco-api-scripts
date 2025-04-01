@@ -1,6 +1,8 @@
 .irb_history
 /recipes/*
 !/recipes/.keep
+/superskills/*
+!/superskills/.keep
 /tmp/*
 !/tmp/.keep
 telegraf.conf
