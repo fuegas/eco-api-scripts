@@ -12,6 +12,13 @@
     --header-width: 20px;
     --size: 175px;
 
+    --bg-ok: var(--bs-success);
+    --bg-nok: var(--bs-danger);
+
+    --bg-hover: var(--bs-secondary);
+    --bg-hover-ok: var(--bs-form-valid-color);
+    --bg-hover-nok: var(--bs-form-invalid-color);
+
     border-collapse: collapse;
     border-spacing: 0;
   }
@@ -21,13 +28,34 @@
     vertical-align: baseline;
     user-select: none;
     line-height: normal;
+  }
 
-<%#     border: 1px solid #F0F; %>
+  .superskills td.ok,
+  .superskills td.nok {
+    text-align: center;
+  }
+
+  .superskills td.ok {
+    background-color: var(--bg-ok);
+  }
+
+  .superskills td.nok {
+    background-color: var(--bg-nok);
   }
 
   .superskills tr.skill:hover td {
-    background-color: var(--bs-secondary);
-    outline: 1px solid var(--bs-secondary);
+    background-color: var(--bg-hover);
+    outline: 1px solid var(--bg-hover);
+  }
+
+  .superskills tr.skill:hover td.ok {
+    background-color: var(--bg-hover-ok);
+    outline: 1px solid var(--bg-hover-ok);
+  }
+
+  .superskills tr.skill:hover td.nok {
+    background-color: var(--bg-hover-nok);
+    outline: 1px solid var(--bg-hover-nok);
   }
 
   <% columns = 1 + context[:categories].to_a.flatten.length %>
@@ -36,23 +64,20 @@
     tr > td:not(.category):nth-child(<%= nr %>),
   .superskills:has(tr > *:nth-child(<%= nr %>):hover)
     tr > th:not(.category):nth-child(<%= nr %>) div span {
-    background-color: var(--bs-secondary);
-    outline: 1px solid var(--bs-secondary);
+    background-color: var(--bg-hover);
+    outline: 1px solid var(--bg-hover);
+  }
+  .superskills:has(tr > *:nth-child(<%= nr %>):hover)
+    tr > td:nth-child(<%= nr %>).ok {
+    background-color: var(--bg-hover-ok);
+    outline: 1px solid var(--bg-hover-ok);
+  }
+  .superskills:has(tr > *:nth-child(<%= nr %>):hover)
+    tr > td:nth-child(<%= nr %>).nok {
+    background-color: var(--bg-hover-nok);
+    outline: 1px solid var(--bg-hover-nok);
   }
   <% end %>
-
-  .superskills td.ok,
-  .superskills td.nok {
-    text-align: center;
-  }
-
-  .superskills td.ok {
-    background-color: var(--bs-success);
-  }
-
-  .superskills td.nok {
-    background-color: var(--bs-danger);
-  }
 
   .superskills tr th {
     height: var(--header-height);
