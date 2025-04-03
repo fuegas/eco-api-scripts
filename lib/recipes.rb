@@ -18,11 +18,10 @@ module Recipes
   end
 
   def self.parse_ingredient(info)
-    case info['Type']
-    when 'ITEM' then Item.new(info)
-    when 'TAG' then Tag.new(info)
+    if info['IsSpecificItem']
+      Item.new(info['Name'])
     else
-      raise "Unknown ingredient type: #{info['Type']}"
+      Tag.new(info['Tag'])
     end
   end
 end

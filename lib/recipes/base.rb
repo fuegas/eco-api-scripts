@@ -7,9 +7,9 @@ module Recipes
     def initialize(data)
       case data
       when ::Hash
-        @display_name = data['DisplayName']
-        @quantity = data['Quantity']
-        @static = data['isStatic'] == 'true'
+        @display_name = data['Name']
+        @quantity = data['Amount']
+        @static = data['IsStatic']
       when ::String
         @display_name = data
       else

@@ -131,47 +131,51 @@ module Recipes
     end
 
     def process_recipes_for(name)
-      recipes.each do |r_name, attrs|
-        ingredients = attrs['Ingredients'].map do |info|
-          ::Recipes.parse_ingredient info
-        end
-        products = attrs['Products'].map do |info|
-          Item.new info
-        end
+      recipes.each do |attrs|
+        attrs['Variants'].each do |variant|
+          r_name = variant['Key']
 
-        recipe = Recipe.new r_name
+          ingredients = variant['Ingredients'].map do |info|
+            ::Recipes.parse_ingredient info
+          end
+          products = variant['Products'].map do |info|
+            Item.new info
+          end
 
-        color_all = false
-        if recipe.matches? name
-          color_all = true
-        elsif ingredients.any? { _1.matches? name } \
-              || products.any? { _1.matches? name }
-          # Process this recipe
-        else
-          # Skip this recipe
-          next
-        end
+          recipe = Recipe.new r_name
 
-        add_click_link recipe.ref
+          color_all = false
+          if recipe.matches? name
+            color_all = true
+          elsif ingredients.any? { _1.matches? name } \
+                || products.any? { _1.matches? name }
+            # Process this recipe
+          else
+            # Skip this recipe
+            next
+          end
 
-        if color_all
-          highlight_node recipe.ref
-        end
+          add_click_link recipe.ref
 
-        ingredients.each do |ingredient|
-          add_ingredient(
-            color: color_all || ingredient.matches?(name),
-            ingredient: ingredient,
-            recipe: recipe,
-          )
-        end
+          if color_all
+            highlight_node recipe.ref
+          end
 
-        products.each do |product|
-          add_product(
-            color: color_all || product.matches?(name),
-            product: product,
-            recipe: recipe,
-          )
+          ingredients.each do |ingredient|
+            add_ingredient(
+              color: color_all || ingredient.matches?(name),
+              ingredient: ingredient,
+              recipe: recipe,
+            )
+          end
+
+          products.each do |product|
+            add_product(
+              color: color_all || product.matches?(name),
+              product: product,
+              recipe: recipe,
+            )
+          end
         end
       end
     end

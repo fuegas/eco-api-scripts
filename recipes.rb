@@ -11,7 +11,7 @@ require_relative 'lib/recipes/renderer'
 # Load data from cached jsons
 recipes = JSON.parse(
   File.read("#{__dir__}/tmp/recipes.json"),
-)
+)['Recipes']
 
 tags = JSON.parse(
   File.read("#{__dir__}/tmp/tags.json"),
@@ -26,26 +26,33 @@ tags.delete 'Food'
 
 # Gather information
 curated_items = {}
-recipes.each_value do |recipe|
-  recipe['Ingredients'].each do |item|
-    next unless item['Type'] == 'ITEM'
+recipes.each do |recipe|
+  recipe['Variants'].each do |variant|
+    variant['Ingredients'].each do |item|
+      next unless item['IsSpecificItem']
 
-    name = item['DisplayName']
-    curated_items[Recipes.item_ref(name)] = name
-  end
+      name = item['Name']
+      curated_items[Recipes.item_ref(name)] = name
+    end
 
-  recipe['Products'].each do |item|
-    name = item['DisplayName']
-    curated_items[Recipes.item_ref(name)] = name
+    variant['Products'].each do |item|
+      name = item['Name']
+      curated_items[Recipes.item_ref(name)] = name
+    end
   end
 end
 
 skill_recipes = {}
-recipes.each do |name, recipe|
-  ref = Recipes.recipe_ref(name)
+recipes.each do |recipe|
+  variants = recipe['Variants'].to_h do |variant|
+    [
+      Recipes.recipe_ref(variant['Key']),
+      variant['Key'],
+    ]
+  end
 
-  recipe['SkillsNeeded'].each do |info|
-    (skill_recipes[info['Skill']] ||= {})[ref] = name
+  recipe['SkillNeeds'].each do |info|
+    (skill_recipes[info['Skill']] ||= {}).merge! variants
   end
 end
 
@@ -98,12 +105,16 @@ curated_items.each_value do |name|
 end
 
 # Page for each recipe
-recipes.each_key do |name|
-  renderer.render_with_layout(
-    'mermaid',
-    output: "#{Recipes.recipe_ref(name)}.html",
-    mermaid: mermaid.for(name),
-  )
+recipes.each do |recipe|
+  recipe['Variants'].each do |variant|
+    name = variant['Key']
+
+    renderer.render_with_layout(
+      'mermaid',
+      output: "#{Recipes.recipe_ref(name)}.html",
+      mermaid: mermaid.for(name),
+    )
+  end
 end
 
 # Done!
