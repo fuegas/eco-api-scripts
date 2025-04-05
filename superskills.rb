@@ -145,6 +145,7 @@ dependencies = {
     produces: [
       *tags['Ore'],
       *tags['Rock'],
+      'Sulfur',
     ],
     uses: [],
   },
