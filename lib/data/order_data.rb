@@ -3,7 +3,7 @@
 require 'data/influx'
 
 class Data
-  class OrderData < ::Data.define(
+  OrderData = ::Data.define(
     :item,
     :price,
     :quantity,
@@ -13,7 +13,7 @@ class Data
     :owner,
     :shop,
     :shop_balance,
-  )
+  ) do
     include Influx
 
     def influx_tags

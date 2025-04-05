@@ -16,7 +16,7 @@ class Data
     end
 
     def convert_influx_fields(*names)
-      self.to_h.slice(*names)
+      to_h.slice(*names)
         .map { "#{_1}=#{convert_influx_value(_2, name: _1)}" }
         .join(',')
     end

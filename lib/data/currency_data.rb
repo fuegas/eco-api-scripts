@@ -3,7 +3,7 @@
 require 'data/influx'
 
 class Data
-  class CurrencyData < ::Data.define(
+  CurrencyData = ::Data.define(
     :name,
     :credit,
     :shops_count,
@@ -11,7 +11,7 @@ class Data
     :buying_value,
     :selling_count,
     :selling_value,
-  )
+  ) do
     include Influx
 
     def influx_tags

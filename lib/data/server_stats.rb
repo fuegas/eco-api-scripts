@@ -3,7 +3,7 @@
 require 'data/influx'
 
 class Data
-  class ServerStats < ::Data.define(
+  ServerStats = ::Data.define(
     :animals,
     :culture,
     :days_running,
@@ -11,11 +11,11 @@ class Data
     :online_players,
     :plants,
     :total_players,
-  )
+  ) do
     include Influx
 
-    def self.info(**opts)
-      @info ||= ServerStats.new(**opts)
+    def self.info(**)
+      @info ||= ServerStats.new(**)
     end
 
     def influx_tags
