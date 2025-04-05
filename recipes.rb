@@ -47,7 +47,7 @@ recipes.each do |recipe|
   variants = recipe['Variants'].to_h do |variant|
     [
       Recipes.recipe_ref(variant['Key']),
-      variant['Key'],
+      variant['Name'],
     ]
   end
 
@@ -87,24 +87,33 @@ mermaid = Recipes::Mermaid.new(
 )
 
 # Page for each tag
+print "Tags (#{curated_tags.count}) "
 curated_tags.each_value do |name|
   renderer.render_with_layout(
     'mermaid',
     output: "#{Recipes.tag_ref(name)}.html",
     mermaid: mermaid.for(name),
   )
+
+  print '.'
 end
+puts ''
 
 # Page for each item
+print "Items (#{curated_items.count}) "
 curated_items.each_value do |name|
   renderer.render_with_layout(
     'mermaid',
     output: "#{Recipes.item_ref(name)}.html",
     mermaid: mermaid.for(name),
   )
+
+  print '.'
 end
+puts ''
 
 # Page for each recipe
+print "Recipes (#{recipes.sum { _1['NumberOfVariants'] }}) "
 recipes.each do |recipe|
   recipe['Variants'].each do |variant|
     name = variant['Key']
@@ -114,8 +123,11 @@ recipes.each do |recipe|
       output: "#{Recipes.recipe_ref(name)}.html",
       mermaid: mermaid.for(name),
     )
+
+    print '.'
   end
 end
+puts ''
 
 # Done!
-puts '', 'ok'
+puts '=> Recipes generated'

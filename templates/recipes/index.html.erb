@@ -3,7 +3,7 @@
     <div class="col">
       <h2>Tags</h2>
       <ul>
-        <% context[:tags].each do |ref, name| %>
+        <% context[:tags].sort.each do |ref, name| %>
         <li>
           <a href="<%= ref %>.html">
             <%= name %>
@@ -15,7 +15,7 @@
     <div class="col">
       <h2>Items</h2>
       <ul>
-        <% context[:items].each do |ref, name| %>
+        <% context[:items].sort.each do |ref, name| %>
         <li>
           <a href="<%= ref %>.html">
             <%= name %>
