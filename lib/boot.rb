@@ -30,3 +30,4 @@ end
 
 Eco.parse_stores_json("#{__dir__}/../tmp/stores.json")
 Eco.parse_server_stats_json("#{__dir__}/../tmp/info.json")
+Eco.parse_exhaustion_json("#{__dir__}/../tmp/exhaustion.json")

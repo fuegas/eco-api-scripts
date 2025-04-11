@@ -2,6 +2,7 @@
 
 require 'data/server_stats'
 require 'eco/currency'
+require 'eco/exhaustion'
 require 'eco/order'
 require 'eco/owner'
 require 'eco/shop'
@@ -57,5 +58,16 @@ module Eco
       laws: json['Laws'],
       plants: json['Plants'],
     )
+  end
+
+  def self.parse_exhaustion_json(path)
+    return unless ::File.exist?(path)
+
+    json = ::JSON.parse(::File.read(path))
+    return unless json.is_a? ::Hash
+
+    json.each do |name, remaining|
+      Exhaustion.add(name, remaining)
+    end
   end
 end

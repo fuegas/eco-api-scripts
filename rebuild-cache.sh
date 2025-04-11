@@ -32,6 +32,7 @@ fi
 # Build URLs
 url_base="http://${server}"
 url_info="${url_base}/info"
+url_exhaustion="${url_base}/api/v1/plugins/extendedendpoints/exhaustion"
 url_recipes="${url_base}/api/v1/plugins/EcoPriceCalculator/recipes"
 url_stores="${url_base}/api/v1/plugins/EcoPriceCalculator/stores"
 url_tags="${url_base}/api/v1/plugins/EcoPriceCalculator/tags"
@@ -39,6 +40,7 @@ url_tags="${url_base}/api/v1/plugins/EcoPriceCalculator/tags"
 # Inform which URL we're querying
 info "Using base URL: ${url_base}"
 info "Info: ${url_info}"
+info "Exhaustion: ${url_info}"
 info "Recipes: ${url_recipes}"
 info "Stores: ${url_stores}"
 info "Tags: ${url_tags}"
@@ -80,3 +82,14 @@ curl \
   ${url_tags} \
   && mv ${tmp_path}/tags.tmp ${tmp_path}/tags.json \
   && (cat ${tmp_path}/tags.json | jq . > ${tmp_path}/tags-pretty.json)
+
+if [[ "$@" =~ --exhaustion ]]; then
+  info 'Downloading exhaustion'
+  curl \
+    ${curl_opts} \
+    --fail \
+    --output ${tmp_path}/exhaustion.tmp \
+    ${url_exhaustion} \
+    && mv ${tmp_path}/exhaustion.tmp ${tmp_path}/exhaustion.json \
+    && (cat ${tmp_path}/exhaustion.json | jq . > ${tmp_path}/exhaustion-pretty.json)
+fi

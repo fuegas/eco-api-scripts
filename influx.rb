@@ -14,5 +14,9 @@ Eco::Order
   .map(&:data)
   .each { puts _1.to_influx(tag: 'order') }
 
+Eco::Exhaustion
+  .map(&:data)
+  .each { puts _1.to_influx(tag: 'exhaustion') }
+
 # Server stats
 puts Data::ServerStats.info.to_influx(tag: 'serverstats')
