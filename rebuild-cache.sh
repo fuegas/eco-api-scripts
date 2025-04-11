@@ -40,7 +40,7 @@ url_tags="${url_base}/api/v1/plugins/EcoPriceCalculator/tags"
 # Inform which URL we're querying
 info "Using base URL: ${url_base}"
 info "Info: ${url_info}"
-info "Exhaustion: ${url_info}"
+info "Exhaustion: ${url_exhaustion}"
 info "Recipes: ${url_recipes}"
 info "Stores: ${url_stores}"
 info "Tags: ${url_tags}"
