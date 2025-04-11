@@ -85,7 +85,6 @@ items_anyone_can_make = [
 items_we_can_ignore = [
   'Acorn',
   'Clam',
-  'Clay',
   'Cloth',
   'Compost',
   'Creosote Flower',
