@@ -106,6 +106,13 @@ craft_items_to_ignore = [
   *craft_tags_to_ignore.map { tags[_1] }.flatten,
 ]
 
+crafts_to_ignore_per_skill = {
+  'Shipwright' => [
+    'Lubricant',
+    'Plastic',
+  ],
+}
+
 # Preload dependencies with items from skill usage
 dependencies = {
   'Gathering' => {
@@ -158,17 +165,21 @@ recipes.each do |recipe|
       produces: [],
       uses: [],
     }
+    ignore_for_this_skill = \
+      crafts_to_ignore_per_skill[skill] || []
 
     recipe['Variants'].each do |variant|
       variant['Ingredients'].each do |ingredient|
         if ingredient['IsSpecificItem']
           name = ingredient['Name']
-          next if craft_items_to_ignore.include? name
+          next if craft_items_to_ignore.include?(name) \
+                  || ignore_for_this_skill.include?(name)
 
           dependency[:uses] << name
         else
           tag = ingredient['Tag']
-          next if craft_tags_to_ignore.include? tag
+          next if craft_tags_to_ignore.include?(tag) \
+                  || ignore_for_this_skill.include?(tag)
 
           tags[tag].each do |name|
             dependency[:uses] << name
@@ -178,7 +189,8 @@ recipes.each do |recipe|
 
       variant['Products'].each do |product|
         name = product['Name']
-        next if craft_items_to_ignore.include? name
+        next if craft_items_to_ignore.include?(name) \
+                || ignore_for_this_skill.include?(name)
 
         dependency[:produces] << name
       end
