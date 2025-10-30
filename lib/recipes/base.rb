@@ -8,7 +8,7 @@ module Recipes
       case data
       when ::Hash
         @display_name = data['Name']
-        @quantity = data['Amount']
+        @quantity = data['Amount'] || data['Ammount']
         @static = data['IsStatic']
       when ::String
         @display_name = data

@@ -19,9 +19,9 @@ module Recipes
 
   def self.parse_ingredient(info)
     if info['IsSpecificItem']
-      Item.new(info['Name'])
+      Item.new(info)
     else
-      Tag.new(info['Tag'])
+      Tag.new(info.merge('Name' => info['Tag']))
     end
   end
 end
